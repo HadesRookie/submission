@@ -6,6 +6,7 @@ import com.graduation.submission.common.ResponseResult;
 import com.graduation.submission.dao.ManuscriptMapper;
 import com.graduation.submission.pojo.Manuscript;
 import com.graduation.submission.pojo.User;
+import com.graduation.submission.pojo.dto.ReviewSearchDTO;
 import com.graduation.submission.pojo.vo.ManuscriptVO;
 import com.graduation.submission.service.ManuscriptService;
 import com.graduation.submission.utils.IStatusMessage;
@@ -69,6 +70,19 @@ public class ManuscriptServiceImpl implements ManuscriptService {
     }
 
     @Override
+    public PageDataResult getReviewList(int page, int limit, ReviewSearchDTO reviewSearchDTO) {
+        PageDataResult pdr = new PageDataResult();
+        PageHelper.startPage(page, limit);
+        List<ManuscriptVO> manuscriptVOS = manuscriptMapper.getReviewList(reviewSearchDTO);
+        //获取分页查询后的数据
+        PageInfo<ManuscriptVO> pageInfo = new PageInfo<>(manuscriptVOS);
+        //设置获取到的总记录数total；
+        pdr.setTotals(Long.valueOf(pageInfo.getTotal()).intValue());
+        pdr.setList(manuscriptVOS);
+        return pdr;
+    }
+
+    @Override
     public String deleteManuscript(int id) {
         return this.manuscriptMapper.deleteManuscript(id) == 1 ? "ok" : "删除失败，请您稍后再试";
     }
@@ -84,6 +98,36 @@ public class ManuscriptServiceImpl implements ManuscriptService {
 
         int update = this.manuscriptMapper.updateManuscript(topic,content,"等待审核",id);
         if (update == 1){
+            responseResult.setCode(IStatusMessage.SystemStatus.SUCCESS
+                    .getCode());
+        }else {
+            responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
+            responseResult.setMessage(IStatusMessage.SystemStatus.ERROR.getMessage());
+        }
+
+        return responseResult;
+    }
+
+    @Override
+    public ResponseResult reviewPass(Integer id) {
+        ResponseResult responseResult = new ResponseResult();
+        int pass = this.manuscriptMapper.reviewPass("审核通过",id);
+        if (pass == 1){
+            responseResult.setCode(IStatusMessage.SystemStatus.SUCCESS
+                    .getCode());
+        }else {
+            responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
+            responseResult.setMessage(IStatusMessage.SystemStatus.ERROR.getMessage());
+        }
+
+        return responseResult;
+    }
+
+    @Override
+    public ResponseResult returnEdit(String content, Integer id) {
+        ResponseResult responseResult = new ResponseResult();
+        int returnEdit = this.manuscriptMapper.returnEdit(content,"退回修改",id);
+        if (returnEdit == 1){
             responseResult.setCode(IStatusMessage.SystemStatus.SUCCESS
                     .getCode());
         }else {

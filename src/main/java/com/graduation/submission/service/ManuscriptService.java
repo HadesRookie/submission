@@ -1,6 +1,7 @@
 package com.graduation.submission.service;
 
 import com.graduation.submission.common.ResponseResult;
+import com.graduation.submission.pojo.dto.ReviewSearchDTO;
 import com.graduation.submission.pojo.vo.ManuscriptVO;
 import com.graduation.submission.utils.PageDataResult;
 
@@ -31,6 +32,15 @@ public interface ManuscriptService {
     PageDataResult listManuscriptByUserId(int page,int limit,int userId);
 
     /**
+     * 获取所有稿件信息进行审核管理
+     * @param page
+     * @param limit
+     * @param reviewSearchDTO
+     * @return
+     */
+    PageDataResult getReviewList(int page, int limit, ReviewSearchDTO reviewSearchDTO);
+
+    /**
      * 删除稿件
      * @param id
      * @return
@@ -53,5 +63,18 @@ public interface ManuscriptService {
      */
     ResponseResult updateManuscript(String topic,String content,Integer id);
 
+    /**
+     * 审核通过
+     * @param id
+     * @return
+     */
+    ResponseResult reviewPass(Integer id);
 
+    /**
+     * 退回修改
+     * @param content
+     * @param id
+     * @return
+     */
+    ResponseResult returnEdit(String content,Integer id);
 }

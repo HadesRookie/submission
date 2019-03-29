@@ -1,5 +1,5 @@
 /**
- * 已投稿管理
+ * 用户管理
  */
 var pageCurr;
 var editIndex;
@@ -23,10 +23,9 @@ $(function() {
         var table = layui.table
             ,form = layui.form;
 
-
         tableIns=table.render({
-            elem: '#submissionList'
-            ,url:'/submit/newsList'
+            elem: '#reviewList'
+            ,url:'/review/getReviewList'
             ,method: 'post' //默认：get请求
             ,cellMinWidth: 80
             ,page: true,
@@ -42,12 +41,13 @@ $(function() {
             ,cols: [[
                 {type:'numbers'}
                 ,{field:'id', title:'ID',width:80, unresize: true, sort: true}
+                ,{field:'username', title:'用户名'}
                 ,{field:'topic', title:'标题'}
                 ,{field:'content',title:'简要内容',align:'center', minWidth:110}
                 ,{field:'mstatus', title:'审核状态',width:95,align:'center',templet:'#submissionStatus'}
                 ,{field:'insertTime', title: '发布时间'}
                 ,{field:'updateTime', title: '更改时间'}
-                ,{fixed:'right', title:'操作',width:150,align:'center', toolbar:'#submissionListBar'}
+                ,{fixed:'right', title:'操作',width:140,align:'center', toolbar:'#optBar'}
             ]]
             ,  done: function(res, curr, count){
                 //如果是异步请求数据方式，res即为你接口返回的信息。
@@ -62,39 +62,77 @@ $(function() {
         });
 
         //监听工具条
-        table.on('tool(submissionTable)', function(obj){
+        table.on('tool(reviewTable)', function(obj){
             var data = obj.data;
-            if(obj.event === 'del'){  //删除
-                delManuscript(data,data.id);
-            } else if(obj.event === 'edit'){
+             if(obj.event === 'review'){
                 //编辑
-                getManuscript(data,data.id);
-            }else if(obj.event === 'look'){ //预览
-                layer.alert("此功能待开发")
-            }
+                getReview(data,data.id);
+             }
         });
-        //监听提交
-        form.on('submit(editSubmit)', function(data){
+        //监听审核通过
+        form.on('submit(reviewPass)', function(data){
             // TODO 校验
-            formSubmit(data);
+            reviewPass(data);
+            return false;
+        });
+
+        //监听退回修改
+        form.on('submit(returnEdit)', function(data){
+            // TODO 校验
+            returnEdit(data);
+            return false;
+        });
+
+    });
+    //搜索框
+    layui.use(['form','laydate'], function(){
+        var form = layui.form ,layer = layui.layer
+            ,laydate = layui.laydate;
+        //日期
+        laydate.render({
+            elem: '#insertTimeStart'
+        });
+        laydate.render({
+            elem: '#insertTimeEnd'
+        });
+        //TODO 数据校验
+        //监听搜索框
+        form.on('submit(searchSubmit)', function(data){
+            //重新加载table
+            load(data);
             return false;
         });
     });
 
+
 });
 
-//提交表单
-function formSubmit(obj){
-    $.post("/submit/newsEdit",{
+//审核通过
+function reviewPass(obj) {
+    $.post("/review/pass",{
+        "id":$("#id").val()
+    },function(res){
+        if(res.code=="1000"){
+            layer.alert("通过审核！",function () {
+                layer.closeAll();
+                load(obj)
+            });
+        }else{
+            layer.alert(res.message,function(){
+                layer.closeAll();//关闭所有弹框
+                load(obj)
+            });
+        }
+    });
+}
+
+function returnEdit(obj) {
+    $.post("/review/returnEdit",{
         "id":$("#id").val(),
-        "topic" : $("#topic").val(),  //文章标题
         "content" : layedit.getContent(editIndex) //文章内容
     },function(res){
         if(res.code=="1000"){
-            layer.alert("文章更新成功！",function () {
-                $("#id").val("");
-                $("#topic").val("");
-                $("#content").val("");
+            layer.alert("退回修改！",function () {
                 layer.closeAll();
                 load(obj)
             });
@@ -116,62 +154,33 @@ function openEdit(title){
         resize :false,
         shadeClose: true,
         area:['900px'],
-        content:$('#editSubmission')
+        content:$('#reviewSubmission')
     });
 }
-function getManuscript(obj,id) {
+
+function getReview(obj,id) {
     //如果已经审核通过，提醒不可编辑和删除
     if(obj.mstatus === '审核通过'){
-        layer.alert("该文字已审核通过，不可进行编辑。");
+        layer.alert("该文字已审核通过，不可进行再次审核。");
     }else{
         //回显数据
         $.get("/submit/getNewsDetail",{"id":id},function(data){
-                if(data.msg=="ok" && data.manuscript!=null){
+            if(data.msg=="ok" && data.manuscript!=null){
 
-                    $("#id").val(id);
-                    $("#topic").val(data.manuscript.topic==null?'':data.manuscript.topic);
-                    $("#content").val(data.manuscript.content==null?'':data.manuscript.content)
+                $("#id").val(id);
+                $("#topic").val(data.manuscript.topic==null?'':data.manuscript.topic);
+                $("#content").val(data.manuscript.content==null?'':data.manuscript.content)
 
-                    openEdit("编辑文章");
-                }else{
-                    //弹出错误提示
-                    layer.alert(data.msg,function () {
-                        layer.closeAll();
-                    });
-                }
+                openEdit("审核文章");
+            }else{
+                //弹出错误提示
+                layer.alert(data.msg,function () {
+                    layer.closeAll();
+                });
+            }
 
         });
     }
-}
-function delManuscript(obj,id) {
-
-    if(null!=id){
-            layer.confirm('您确定要删除该文章吗？', {
-                btn: ['确认','返回'] //按钮
-            }, function(){
-                $.post("/submit/delNews",{"id":id},function(data){
-                    if(isLogin(data)){
-                        if(data=="ok"){
-                            //回调弹框
-                            layer.alert("删除成功！",function(){
-                                layer.closeAll();
-                                //加载load方法
-                                load(obj);//自定义
-                            });
-                        }else{
-                            layer.alert(data,function(){
-                                layer.closeAll();
-                                //加载load方法
-                                load(obj);//自定义
-                            });
-                        }
-                    }
-                });
-            }, function(){
-                layer.closeAll();
-            });
-        }
-
 }
 
 

@@ -1,6 +1,7 @@
 package com.graduation.submission.dao;
 
 import com.graduation.submission.pojo.Manuscript;
+import com.graduation.submission.pojo.dto.ReviewSearchDTO;
 import com.graduation.submission.pojo.vo.ManuscriptVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -22,8 +23,11 @@ public interface ManuscriptMapper {
     //添加文章
     int newsAdd(Manuscript manuscript);
 
-    //获取所有自己投稿的消息
+    //获取所有自己投稿的信息
     List<ManuscriptVO> listManuscriptByUserId(Integer userId);
+
+    //获取所有投稿的信息
+    List<ManuscriptVO> getReviewList(@Param("reviewSearch")ReviewSearchDTO reviewSearch);
 
     //根据稿件id获取标题和内容
     ManuscriptVO getManuscriptById(Integer id);
@@ -34,5 +38,9 @@ public interface ManuscriptMapper {
     //编辑稿件
     int updateManuscript(@Param("topic")String topic,@Param("content")String content,@Param("mStatus")String mStatus,@Param("id")Integer id);
 
+    //通过审核
+    int reviewPass(@Param("mStatus")String mStatus,@Param("id")Integer id);
 
+    //退回修改
+    int returnEdit(@Param("content")String content,@Param("mStatus")String mStatus,@Param("id")Integer id);
 }

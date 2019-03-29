@@ -196,8 +196,7 @@
                 AND username like CONCAT(CONCAT('%',#{userSearch.uname}),
                 '%')
             </if>
-            <if
-                    test="userSearch.insertTimeStart!=null and userSearch.insertTimeStart!=''">
+            <if test="userSearch.insertTimeStart!=null and userSearch.insertTimeStart!=''">
                 AND insert_time &gt;= #{userSearch.insertTimeStart}
             </if>
             <if test="userSearch.insertTimeEnd!=null and userSearch.insertTimeEnd!=''">

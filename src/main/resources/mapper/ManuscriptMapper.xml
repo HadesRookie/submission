@@ -72,7 +72,7 @@
 
     <resultMap id="manuscriptVOMap" type="com.graduation.submission.pojo.vo.ManuscriptVO">
         <result column="id" property="id" javaType="java.lang.Integer" />
-        <result column="username" property="username" javaType="java.lang.Integer" />
+        <result column="username" property="username" javaType="java.lang.String" />
         <result column="topic" property="topic" javaType="java.lang.String" />
         <result column="content" property="content" javaType="java.lang.String" />
         <result column="m_status" property="mStatus" javaType="java.lang.String" />
@@ -85,6 +85,29 @@
             select id,topic,content,m_status,insert_time,update_time
             from manuscript
             where user_id = #{userId}
+        </select>
+
+        <select id="getReviewList" resultMap="manuscriptVOMap">
+            select m.id,u.username,m.topic,m.content,m.m_status,m.insert_time,m.update_time
+            from manuscript m,user u
+            where m.user_id = u.id
+            <if test="reviewSearch.author != null and reviewSearch.author != ''">
+                and u.username = #{reviewSearch.author}
+            </if>
+            <if test="reviewSearch.title != null and reviewSearch.title != ''">
+                and m.topic like CONCAT(CONCAT('%',#{reviewSearch.title}),
+                '%')
+            </if>
+            <if test="reviewSearch.reviewStatus != null and reviewSearch.reviewStatus != ''">
+                and m.m_status = #{reviewSearch.reviewStatus}
+            </if>
+            <if test="reviewSearch.insertTimeStart!=null and reviewSearch.insertTimeStart!=''">
+                AND m.insert_time &gt;= #{reviewSearch.insertTimeStart}
+            </if>
+            <if test="reviewSearch.insertTimeEnd!=null and reviewSearch.insertTimeEnd!=''">
+                AND m.insert_time &lt;= #{reviewSearch.insertTimeEnd}
+            </if>
+            ORDER BY m.insert_time DESC
         </select>
 
         <select id="getManuscriptById" resultMap="manuscriptVOMap">
@@ -101,6 +124,24 @@
     <update id="updateManuscript">
         update manuscript
         set topic = #{topic},
+            content = #{content},
+            m_status = #{mStatus},
+            update_time = NOW()
+        where id = #{id}
+    </update>
+
+    <update id="reviewPass">
+        update manuscript
+        set
+            m_status = #{mStatus},
+            update_time = NOW()
+        where
+            id = #{id}
+    </update>
+
+    <update id="returnEdit">
+        update manuscript
+        set
             content = #{content},
             m_status = #{mStatus},
             update_time = NOW()

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org"
+       xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head th:include="layout :: htmlhead" th:with="title='审核列表'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+    <div class="layui-body" style="margin: 1%">
+
+        <form id="manuscriptSearch" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">作者</label>
+                <div class="layui-input-inline">
+                    <input id="author" name="author" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <label class="layui-form-label">标题(模糊)</label>
+                <div class="layui-input-inline">
+                    <input id="title" name="title" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+                <label class="layui-form-label">审核状态</label>
+                <div class="layui-input-inline">
+                    <select name="reviewStatus" lay-verify="">
+                        <option value="">请选择审核状态</option>
+                        <option value="等待审核">等待审核</option>
+                        <option value="退回修改">退回修改</option>
+                        <option value="审核通过">审核</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">发布时间</label>
+                    <div class="layui-input-inline" style="width: 175px;">
+                        <input  name="insertTimeStart" id="insertTimeStart" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
+                    </div>
+                    <div class="layui-form-mid">-</div>
+                    <div class="layui-input-inline" style="width: 175px;">
+                        <input name="insertTimeEnd" id="insertTimeEnd" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input" type="text"/>
+                    </div>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <button class="layui-btn"  lay-submit="" lay-filter="searchSubmit">提交</button>
+                </div>
+            </div>
+        </form>
+
+        <!--<hr class="layui-bg-blue"/>-->
+
+        <div style="display:none;" id="currentUser"><shiro:principal property="id"></shiro:principal></div>
+
+        <table id="reviewList" lay-filter="reviewTable"></table>
+
+        <!--审核状态-->
+        <script type="text/html" id="submissionStatus">
+            {{#  if(d.mstatus === "等待审核"){ }}
+            <span style="color:#01AAED !important;">等待审核</span>
+            {{#  } else if(d.mstatus === "退回修改"){ }}
+            <span style="color:#f00 !important; font-weight:bold;">退回修改</span>
+            {{#  } else { }}
+            审核通过
+            {{#  }}}
+        </script>
+
+        <script type="text/html" id="optBar">
+            <a class="layui-btn layui-btn-xs" lay-event="review">审核</a>
+        </script>
+    </div>
+
+    <!-- 审核投稿 -->
+    <div id="reviewSubmission" class="layer_self_wrap" style="width:800px;display:none;padding: 20px">
+        <form id="submissionForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <input id="id" type="hidden" name="id"/>
+            <div class="layui-form-item">
+                <label >文章标题:</label>
+                <input type="text" class="layui-input" name="topic" id="topic" required readonly  />
+            </div>
+
+            <div class="layui-form-item">
+                <label >文章内容:</label>
+                <div style="margin-bottom: 20px;">
+                    <textarea class="layui-textarea" name="content" required  id="content"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left: 10px;">
+                    <button class="layui-btn"  lay-submit="" lay-filter="reviewPass">审核通过</button>
+                    <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="returnEdit">退回修改</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/dateUtils.js"></script>
+    <script src="/js/review/reviewList.js"></script>
+
+</div>
+</body>
+</html>
