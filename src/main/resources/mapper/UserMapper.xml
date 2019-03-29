@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduation.submission.dao.UserMapper">
+    <resultMap id="userMap" type="com.graduation.submission.pojo.User">
+        <id column="id" property="id" javaType="java.lang.Integer" />
+        <result column="username" property="username" javaType="java.lang.String" />
+        <result column="password" property="password" javaType="java.lang.String" />
+        <result column="email" property="email" javaType="java.lang.String" />
+        <result column="pay_num" property="payNum" javaType="java.lang.String" />
+        <result column="real_name" property="realName" javaType="java.lang.String" />
+        <result column="mobile" property="mobile" javaType="java.lang.String" />
+        <result column="is_use" property="isUse" javaType="java.lang.Integer" />
+        <result column="insert_time" property="insertTime" javaType="java.util.Date" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" />
+        <result column="version" property="version" javaType="java.lang.Integer" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, username, password, email, pay_num, real_name,
+        mobile,is_use,insert_time,
+        update_time, version
+    </sql>
+
+    <select id="getUser" resultMap="userMap">
+        select id, username, password, email, pay_num, real_name,
+               mobile,is_use,insert_time,
+               update_time, version
+        from user where username = #{username}
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+            resultMap="userMap">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from user
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insertSelective" parameterType="com.graduation.submission.pojo.User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="payNum != null">
+                pay_num
+            </if>
+            <if test="realName != null" >
+                real_name
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="isUse != null">
+                is_use,
+            </if>
+            <if test="insertTime != null">
+                insert_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="payNum != null">
+                #{payNum,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null" >
+                #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="isUse != null">
+                #{isUse,jdbcType=INTEGER},
+            </if>
+            <if test="insertTime != null">
+                #{insertTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.graduation.submission.pojo.User">
+        update user
+        set
+            username = #{username,jdbcType=VARCHAR},
+            password = #{password,jdbcType=VARCHAR},
+            email = #{email,jdbcType=VARCHAR},
+            pay_num =  #{payNum,jdbcType=VARCHAR},
+            real_name =  #{realName,jdbcType=VARCHAR},
+            mobile = #{mobile,jdbcType=VARCHAR},
+            is_use = #{isUse,jdbcType=INTEGER},
+            insert_time =
+                #{insertTime,jdbcType=TIMESTAMP},
+            update_time =
+                #{updateTime,jdbcType=TIMESTAMP},
+            version =
+                #{version,jdbcType=INTEGER}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.graduation.submission.pojo.User">
+        insert into user (id, username,password,
+                          email,pay_num,real_name,mobile,
+                          is_use,insert_time, update_time,
+                          version
+        )
+        values (#{id,jdbcType=INTEGER},#{username,jdbcType=VARCHAR},
+                #{password,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},
+                #{payNum,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR},
+                #{mobile,jdbcType=VARCHAR},#{isUse,jdbcType=INTEGER},
+                #{insertTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+                0
+               )
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.graduation.submission.pojo.User">
+        update user
+        <set>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="payNum != null">
+                #{payNum,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null" >
+                #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="isUse != null">
+                #{isUse,jdbcType=INTEGER},
+            </if>
+            <if test="insertTime != null">
+                #{insertTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            version = version+1
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <!--=Start getUsers 分页查询用户列表userSearch -->
+    <select id="getUsers" resultType="com.graduation.submission.pojo.dto.UserRoleDTO">
+        select
+        id, username, password, email, pay_num payNum, real_name realName,
+        mobile,is_use isUse,insert_time insertTime,
+        update_time updateTime, version
+        from user
+        <where>
+            <if test="userSearch.umobile!=null and userSearch.umobile!=''">
+                AND mobile =#{userSearch.umobile}
+            </if>
+            <if test="userSearch.uname!=null and userSearch.uname!=''">
+                AND username like CONCAT(CONCAT('%',#{userSearch.uname}),
+                '%')
+            </if>
+            <if
+                    test="userSearch.insertTimeStart!=null and userSearch.insertTimeStart!=''">
+                AND insert_time &gt;= #{userSearch.insertTimeStart}
+            </if>
+            <if test="userSearch.insertTimeEnd!=null and userSearch.insertTimeEnd!=''">
+                AND insert_time &lt;= #{userSearch.insertTimeEnd}
+            </if>
+        </where>
+        ORDER BY insert_time DESC
+    </select>
+    <!--=End getUsers 分页查询用户列表 -->
+
+    <!--=Start setUseUser 设置用户是否可用 -->
+    <update id="setUseUser">
+        update user
+        set
+            is_use = #{isUse,jdbcType=INTEGER},
+            update_time=NOW(),
+            version=version+1
+        where id =
+              #{id,jdbcType=INTEGER}
+    </update>
+    <!--=Start setUseUser 设置用户是否离职 -->
+
+    <!--=Start delUser 删除用户 -->
+    <delete id="delUser">
+        delete
+        from user
+        where id =
+              #{id,jdbcType=INTEGER}
+    </delete>
+    <!--=Start delUser 删除用户 -->
+
+    <!--=Start getUserAndRoles 查询用户及他对应的角色ids -->
+    <resultMap id="getUserRoles" type="com.graduation.submission.pojo.vo.UserRoleVO">
+        <id column="id" property="id" javaType="java.lang.Integer" />
+        <result column="username" property="username" javaType="java.lang.String" />
+        <result column="password" property="password" javaType="java.lang.String" />
+        <result column="email" property="email" javaType="java.lang.String" />
+        <result column="pay_num" property="payNum" javaType="java.lang.String" />
+        <result column="real_name" property="realName" javaType="java.lang.String" />
+        <result column="mobile" property="mobile" javaType="java.lang.String" />
+        <result column="is_use" property="isUse" javaType="java.lang.Integer" />
+        <result column="version" property="version" javaType="java.lang.Integer" />
+
+        <collection property="userRoles" ofType="com.graduation.submission.pojo.UserRole">
+            <result column="user_id" property="userId" />
+            <result column="role_id" property="roleId" />
+        </collection>
+
+    </resultMap>
+    <select id="getUserAndRoles" resultMap="getUserRoles">
+        select
+            u.id, u.username,u.email,u.pay_num,u.real_name,
+            u.mobile,  u.is_use,u.version,
+            ur.user_id,ur.role_id
+        from user u
+                 LEFT JOIN user_role ur ON
+                u.id=ur.user_id
+        WHERE u.id=#{id} AND u.is_use=0
+    </select>
+    <!--=End getUserAndRoles 查询用户及他对应的角色ids -->
+
+    <!--=Start findUser 根据用户名和密码查找用户 -->
+    <select id="findUser" resultMap="userMap">
+        select
+            id, username, password, email, pay_num, real_name,
+            mobile,is_use,insert_time,
+            update_time, version
+        from user
+        WHERE username=#{username} AND password =#{password} and
+            is_use=0
+    </select>
+    <!--=End findUser 根据用户名和密码查找用户 -->
+    <!--=Start findUserByMobile 根据手机号获取用户数据 -->
+    <select id="findUserByMobile" resultMap="userMap">
+        select
+            id, username, password, email, pay_num, real_name,
+            mobile,is_use,insert_time,
+            update_time, version
+        from user
+        WHERE
+            mobile=#{mobile}
+    </select>
+    <!--=End findUserByMobile 根据手机号查找用户 -->
+    <!--=Start findUserByName 根据用户名获取用户数据 -->
+    <select id="findUserByName" resultMap="userMap">
+        select
+            id, username, password, email, pay_num, real_name,
+            mobile,is_use,insert_time,
+            update_time, version
+        from user
+        WHERE username=#{username}
+    </select>
+    <!--=End findUserByName 根据用户名查找用户 -->
+    <!--=Start updatePwd 修改用户密码 -->
+    <update id="updatePwd">
+        update user
+        set
+            password = #{password},
+            update_time=NOW()
+        where id = #{id,jdbcType=INTEGER} and is_use = 0
+    </update>
+    <!--=Start updatePwd 修改用户密码 -->
+    <!--=Start setUserLockNum 锁定用户 -->
+    <!-- <update id="setUserLockNum"> update user set is_lock = #{isLock}, lock_time=NOW()
+        where id = #{id,jdbcType=INTEGER} and is_del=0 AND is_job=0 </update> -->
+    <!--=Start setUserLockNum 锁定用户 -->
+
+
+
+</mapper>

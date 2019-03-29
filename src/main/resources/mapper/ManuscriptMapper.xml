@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduation.submission.dao.ManuscriptMapper">
+    <resultMap id="manuscriptMap" type="com.graduation.submission.pojo.Manuscript">
+        <result column="id" property="id" javaType="java.lang.Integer" />
+        <result column="user_id" property="userId" javaType="java.lang.Integer" />
+        <result column="topic" property="topic" javaType="java.lang.String" />
+        <result column="content" property="content" javaType="java.lang.String" />
+        <result column="m_status" property="mStatus" javaType="java.lang.String" />
+        <result column="t_status" property="tStatus" javaType="java.lang.String" />
+        <result column="fee_status" property="feeStatus" javaType="java.lang.String" />
+        <result column="t_category_id" property="tCategoryId" javaType="java.lang.Integer" />
+        <result column="insert_time" property="insertTime" javaType="java.util.Date" />
+    </resultMap>
+
+
+    <insert id="newsAdd" useGeneratedKeys="true" keyProperty="id" parameterType="com.graduation.submission.pojo.Manuscript" >
+        insert into manuscript
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="topic != null" >
+                topic,
+            </if>
+            <if test="content != null" >
+                content,
+            </if>
+            <if test="mStatus != null">
+                m_status,
+            </if>
+            <if test="tStatus != null">
+                t_status,
+            </if>
+            <if test="feeStatus != null">
+                fee_status,
+            </if>
+            <if test="tCategoryId != null">
+                t_category_id,
+            </if>
+            <if test="insertTime != null" >
+                insert_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="userId != null" >
+                #{userId},
+            </if>
+            <if test="topic != null" >
+                #{topic},
+            </if>
+            <if test="content != null" >
+                #{content},
+            </if>
+            <if test="mStatus != null">
+                #{mStatus},
+            </if>
+            <if test="tStatus != null">
+                #{tStatus},
+            </if>
+            <if test="feeStatus != null">
+                #{feeStatus},
+            </if>
+            <if test="tCategoryId != null">
+                #{tCategoryId},
+            </if>
+            <if test="insertTime != null" >
+                #{insertTime},
+            </if>
+        </trim>
+    </insert>
+
+    <resultMap id="manuscriptVOMap" type="com.graduation.submission.pojo.vo.ManuscriptVO">
+        <result column="id" property="id" javaType="java.lang.Integer" />
+        <result column="username" property="username" javaType="java.lang.Integer" />
+        <result column="topic" property="topic" javaType="java.lang.String" />
+        <result column="content" property="content" javaType="java.lang.String" />
+        <result column="m_status" property="mStatus" javaType="java.lang.String" />
+        <result column="t_status" property="tStatus" javaType="java.lang.String" />
+        <result column="fee_status" property="feeStatus" javaType="java.lang.String" />
+        <result column="insert_time" property="insertTime" javaType="java.util.Date" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" />
+    </resultMap>
+        <select id="listManuscriptByUserId" resultMap="manuscriptVOMap">
+            select id,topic,content,m_status,insert_time,update_time
+            from manuscript
+            where user_id = #{userId}
+        </select>
+
+        <select id="getManuscriptById" resultMap="manuscriptVOMap">
+            select topic,content
+            from manuscript
+            where id = #{id}
+        </select>
+
+    <delete id="deleteManuscript" parameterType="java.lang.Integer">
+        delete from manuscript
+        where id = #{id}
+    </delete>
+
+    <update id="updateManuscript">
+        update manuscript
+        set topic = #{topic},
+            content = #{content},
+            m_status = #{mStatus},
+            update_time = NOW()
+        where id = #{id}
+    </update>
+
+</mapper>

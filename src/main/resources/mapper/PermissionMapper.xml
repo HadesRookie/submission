@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduation.submission.dao.PermissionMapper">
+    <resultMap id="permitMap" type="com.graduation.submission.pojo.Permission">
+        <result column="id" property="id" javaType="java.lang.Integer" />
+        <result column="permit_name" property="permitName" javaType="java.lang.String" />
+        <result column="pid" property="pid" javaType="java.lang.Integer" />
+        <result column="zindex" property="zIndex" javaType="java.lang.Integer" />
+        <result column="permit_type" property="permitType" javaType="java.lang.Integer" />
+        <result column="description" property="description" javaType="java.lang.String" />
+        <result column="permit_code" property="permitCode" javaType="java.lang.String" />
+        <result column="url" property="url" javaType="java.lang.String" />
+        <result column="insert_time" property="insertTime" javaType="java.util.Date" />
+        <result column="update_time" property="updateTime" javaType="java.util.Date" />
+    </resultMap>
+
+    <!--=Start getPermitByUserId 根据用户ID查找权限树列表-->
+    <select id="getPermitByUserId" resultMap="permitMap">
+        select p.id,p.permit_name,p.pid,p.zindex,p.permit_type,p.description,p.permit_code,
+               p.url,p.insert_time,p.update_time
+        from permission p
+        left join role_permission rp on(rp.permit_id = p.id)
+        left join role r on(r.id = rp.role_id)
+        left join user_role ur on ur.role_id = r.id
+        where ur.user_id = #{userId}
+        GROUP BY p.id
+        order by p.zindex
+    </select>
+    <!--=End getPermitByUserId 根据用户ID查找权限树列表-->
+
+    <sql id="Base_Column_List" >
+        id,permit_name,pid,zindex,permit_type,description,permit_code,
+        url,insert_time,update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="permitMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from permission
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+        delete from permission
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.graduation.submission.pojo.Permission" >
+        insert into permission (id,permit_name,pid,zindex,permit_type,description,permit_code,
+                                url,insert_time,update_time)
+        values (#{id,jdbcType=INTEGER}, #{perminName,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER},
+                #{zIndex,jdbcType=INTEGER}, #{permitType,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
+                #{permitCode,jdbcType=VARCHAR},  #{url,jdbcType=VARCHAR}, #{insertTime,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.graduation.submission.pojo.Permission" >
+        insert into permission
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="permitName != null" >
+                permitName,
+            </if>
+            <if test="pid != null" >
+                pid,
+            </if>
+            <if test="zIndex != null" >
+                zindex,
+            </if>
+            <if test="permitType != null" >
+                permit_type,
+            </if>
+            <if test="description != null" >
+                description,
+            </if>
+            <if test="permitCode != null" >
+                permit_code,
+            </if>
+            <if test="url != null" >
+                url,
+            </if>
+            <if test="insertTime != null" >
+                insert_time,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="permitName != null" >
+                #{permitName,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null" >
+                #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="zIndex != null" >
+                #{zIndex,jdbcType=INTEGER},
+            </if>
+            <if test="permitType != null" >
+                #{permitType,jdbcType=INTEGER},
+            </if>
+            <if test="description != null" >
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="permitCode != null" >
+                #{permitCode,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null" >
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="insertTime != null" >
+                #{insertTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.graduation.submission.pojo.Permission" >
+        update permission
+        <set >
+            <if test="permitName != null" >
+                permit_name = #{permitName,jdbcType=VARCHAR},
+            </if>
+            <if test="pid != null" >
+                pid = #{pid,jdbcType=INTEGER},
+            </if>
+            <if test="zIndex != null" >
+                zindex = #{zIndex,jdbcType=INTEGER},
+            </if>
+            <if test="permitType != null" >
+                permit_type = #{permitType,jdbcType=INTEGER},
+            </if>
+            <if test="description != null" >
+                description =  #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="permitCode != null" >
+                permit_code = #{permitCode,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null" >
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="insertTime != null" >
+                insert_time = #{insertTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null" >
+               update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--=Start findAll 查找所有权限-->
+    <select id="findAll" resultMap="permitMap">
+        select
+        <include refid="Base_Column_List" />
+        from permission
+        ORDER BY zindex
+    </select>
+    <!--=End findAll 查找所有权限-->
+
+    <!--=Start findChildPerm 查找所有子节点权限-->
+    <select id="findChildPerm" resultMap="permitMap">
+        select
+        <include refid="Base_Column_List" />
+        from permission
+        where pid=#{pid}
+    </select>
+    <!--=End findChildPerm 查找所有子节点权限-->
+
+    <sql id="PermColumn" >
+        id, permit_name permitName,pid, zindex zIndex, permit_type permitType, permit_code permitCode, url
+    </sql>
+    <!--=Start findPerms 查找权限树列表-->
+    <select id="findPerms" resultType="com.graduation.submission.pojo.vo.PermissionVO">
+        select
+        <include refid="PermColumn" />
+        from permission
+    </select>
+    <!--=End findPerms 查找权限树列表-->
+    <!--=Start findPermsByRole 根据角色ID查找权限树列表-->
+    <select id="findPermsByRole" resultType="com.graduation.submission.pojo.Permission">
+        select
+        <include refid="PermColumn" />
+        from permission p
+        LEFT JOIN role_permission rp ON rp.permit_id=p.id
+        WHERE rp.role_id=#{roleId}
+    </select>
+    <!--=End findPermsByRole 根据角色ID查找权限树列表-->
+
+</mapper>
