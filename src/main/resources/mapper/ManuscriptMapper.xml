@@ -134,6 +134,7 @@
         update manuscript
         set
             m_status = #{mStatus},
+            t_status = '待推送',
             update_time = NOW()
         where
             id = #{id}

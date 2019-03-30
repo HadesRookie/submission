@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="layout :: htmlhead" th:with="title='分类管理'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头-->
+    <div th:replace="fragments/head :: header"></div>
+
+    <div class="layui-body" style="margin: 1%">
+        <div class="demoTable">
+            &nbsp;&nbsp;<button class="layui-btn" onclick="addCategory('{{r.id}}',0)">新增推文类别</button>
+        </div>
+
+        <div id="tweetTable" class="grid">
+        </div>
+        <script id="view" type="text/html">
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th>类别ID</th>
+                    <th>类别名称</th>
+                    <th>类别描述</th>
+                    <th>父类ID</th>
+                    <th style="width:140px;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{# layui.each(d.rows,function(index,r){ }}
+                <tr>
+                    <td>{{r.id}}</td>
+                    <td>{{r.category}}</td>
+                    <td>{{r.description}}</td>
+                    <td>{{r.parentId}}</td>
+                    <td><a class="layui-btn layui-btn-primary layui-btn-xs" onclick="edit('{{r.id}}',0);">编辑</a>
+                        <a class="layui-btn layui-btn-xs" onclick="addCategory('{{r.id}}',1)">添加子节点</a>
+                        <a class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('{{r.id}}','{{r.category}}')">删除</a>
+                    </td>
+                </tr>
+                {{# }); }}
+                </tbody>
+            </table>
+        </script>
+    </div>
+
+    <!--添加或编辑类别-->
+    <div id="updateCategory" class="layer_self_wrap" style="width:500px;display:none;">
+        <form id="categoryForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <input id="type" type="hidden" name="type"/>
+            <input id="parentId" type="hidden" name="parentId"/>
+            <input id="id" type="hidden" name="id"/>
+            <div class="layui-form-item">
+                <label class="layui-form-label">类别名称</label>
+                <div class="layui-input-inline">
+                    <input name="category" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">类别描述</label>
+                <div class="layui-input-block">
+                    <textarea name="description" placeholder="请输入内容" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left: 10px;">
+                    <button class="layui-btn"  lay-submit="" lay-filter="categorySubmit">提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+
+    <!--底部-->
+    <div th:replace="fragments/footer :: footer"></div>
+    <script src="/js/tweet/tweetCategory.js"></script>
+</div>
+</body>
+</html>
