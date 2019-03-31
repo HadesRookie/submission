@@ -9,7 +9,7 @@
     </resultMap>
 
 
-    <insert id="categoryAdd" useGeneratedKeys="true" keyProperty="id" parameterType="com.graduation.submission.pojo.TweetCategory" >
+    <insert id="insertCategory" useGeneratedKeys="true" keyProperty="id" parameterType="com.graduation.submission.pojo.TweetCategory" >
         insert into tweet_category
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="category != null" >
@@ -64,5 +64,18 @@
         from tweet_category
         where parent_id = #{id}
     </select>
+
+    <resultMap id="categoryTreeMap" type="com.graduation.submission.pojo.TweetCategoryTree">
+        <result column="id" property="id" javaType="java.lang.String" />
+        <result column="parent_id" property="pId" javaType="java.lang.String" />
+        <result column="category" property="name" javaType="java.lang.String" />
+
+    </resultMap>
+
+    <select id="findCategoryTree" resultMap="categoryTreeMap">
+        select id,parent_id,category
+        from tweet_category
+    </select>
+
 
 </mapper>

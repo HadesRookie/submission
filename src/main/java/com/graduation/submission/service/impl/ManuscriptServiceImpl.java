@@ -7,6 +7,7 @@ import com.graduation.submission.dao.ManuscriptMapper;
 import com.graduation.submission.pojo.Manuscript;
 import com.graduation.submission.pojo.User;
 import com.graduation.submission.pojo.dto.ReviewSearchDTO;
+import com.graduation.submission.pojo.dto.TweetSearchDTO;
 import com.graduation.submission.pojo.vo.ManuscriptVO;
 import com.graduation.submission.service.ManuscriptService;
 import com.graduation.submission.utils.IStatusMessage;
@@ -74,6 +75,19 @@ public class ManuscriptServiceImpl implements ManuscriptService {
         PageDataResult pdr = new PageDataResult();
         PageHelper.startPage(page, limit);
         List<ManuscriptVO> manuscriptVOS = manuscriptMapper.getReviewList(reviewSearchDTO);
+        //获取分页查询后的数据
+        PageInfo<ManuscriptVO> pageInfo = new PageInfo<>(manuscriptVOS);
+        //设置获取到的总记录数total；
+        pdr.setTotals(Long.valueOf(pageInfo.getTotal()).intValue());
+        pdr.setList(manuscriptVOS);
+        return pdr;
+    }
+
+    @Override
+    public PageDataResult getTweetList(int page, int limit, TweetSearchDTO tweetSearchDTO) {
+        PageDataResult pdr = new PageDataResult();
+        PageHelper.startPage(page, limit);
+        List<ManuscriptVO> manuscriptVOS = manuscriptMapper.getTweetList(tweetSearchDTO);
         //获取分页查询后的数据
         PageInfo<ManuscriptVO> pageInfo = new PageInfo<>(manuscriptVOS);
         //设置获取到的总记录数total；

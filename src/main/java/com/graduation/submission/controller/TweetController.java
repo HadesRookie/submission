@@ -1,7 +1,11 @@
 package com.graduation.submission.controller;
 
+import com.graduation.submission.common.TreeResult;
 import com.graduation.submission.pojo.TweetCategory;
+import com.graduation.submission.pojo.dto.TweetSearchDTO;
+import com.graduation.submission.service.ManuscriptService;
 import com.graduation.submission.service.TweetCategoryService;
+import com.graduation.submission.utils.PageDataResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +31,15 @@ public class TweetController {
 
     @Autowired
     private TweetCategoryService tweetCategoryService;
+
+    @Autowired
+    private ManuscriptService manuscriptService;
+
+    @RequestMapping("/tweetAdd")
+    public String toTweetAdd(){
+        return "/tweet/tweetAdd";
+    }
+
 
     /**
      * 获取分类列表
@@ -103,6 +116,37 @@ public class TweetController {
             e.printStackTrace();
         }
         return "删除类别出错，请您稍后再试";
+    }
+
+    @RequestMapping(value = "/getTweetList",method = RequestMethod.POST)
+    @ResponseBody
+    public PageDataResult getTweetList(@RequestParam("page") Integer page,
+                                        @RequestParam("limit") Integer limit, TweetSearchDTO tweetSearchDTO){
+        PageDataResult pdr = new PageDataResult();
+        try {
+            if (null == page) {
+                page = 1;
+            }
+            if (null == limit) {
+                limit = 10;
+            }
+            pdr = manuscriptService.getTweetList(page,limit,tweetSearchDTO);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return pdr;
+    }
+
+    @RequestMapping("/getTweetCategoryTree")
+    @ResponseBody
+    public TreeResult getTweetCategoryTree(){
+
+        try {
+            return tweetCategoryService.getCategoryTree();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

@@ -2,6 +2,7 @@ package com.graduation.submission.dao;
 
 import com.graduation.submission.pojo.Manuscript;
 import com.graduation.submission.pojo.dto.ReviewSearchDTO;
+import com.graduation.submission.pojo.dto.TweetSearchDTO;
 import com.graduation.submission.pojo.vo.ManuscriptVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -29,6 +30,9 @@ public interface ManuscriptMapper {
     //获取所有投稿的信息
     List<ManuscriptVO> getReviewList(@Param("reviewSearch")ReviewSearchDTO reviewSearch);
 
+    //获取审核通过的所有推文信息
+    List<ManuscriptVO> getTweetList(@Param("tweetSearch")TweetSearchDTO tweetSearch);
+
     //根据稿件id获取标题和内容
     ManuscriptVO getManuscriptById(Integer id);
 
@@ -43,4 +47,7 @@ public interface ManuscriptMapper {
 
     //退回修改
     int returnEdit(@Param("content")String content,@Param("mStatus")String mStatus,@Param("id")Integer id);
+
+    //添加类别id
+    int addCategoryId(@Param("categoryId")Integer categoryId,@Param("id")Integer id);
 }

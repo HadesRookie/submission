@@ -1,7 +1,9 @@
 package com.graduation.submission.service.impl;
 
+import com.graduation.submission.common.TreeResult;
 import com.graduation.submission.dao.TweetCategoryMapper;
 import com.graduation.submission.pojo.TweetCategory;
+import com.graduation.submission.pojo.TweetCategoryTree;
 import com.graduation.submission.service.TweetCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,7 @@ public class TweetCategoryServiceImpl implements TweetCategoryService {
 
     @Override
     public int insertCategory(TweetCategory tweetCategory) {
-        return this.tweetCategoryMapper.categoryAdd(tweetCategory);
+        return this.tweetCategoryMapper.insertCategory(tweetCategory);
     }
 
     @Override
@@ -53,4 +55,22 @@ public class TweetCategoryServiceImpl implements TweetCategoryService {
             return "删除失败，请您稍后再试";
         }
     }
+
+    @Override
+    public TreeResult getCategoryTree() {
+        TreeResult treeResult = new TreeResult();
+        try {
+            List<TweetCategoryTree> tweetCategoryTrees = this.tweetCategoryMapper.findCategoryTree();
+            treeResult.setData(tweetCategoryTrees);
+            treeResult.setCode(0);
+            treeResult.setMsg("初始化成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            treeResult.setMsg("初始化失败");
+        }
+
+
+        return treeResult;
+    }
+
 }

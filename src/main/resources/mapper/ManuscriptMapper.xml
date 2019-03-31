@@ -110,11 +110,35 @@
             ORDER BY m.insert_time DESC
         </select>
 
-        <select id="getManuscriptById" resultMap="manuscriptVOMap">
-            select topic,content
-            from manuscript
-            where id = #{id}
-        </select>
+    <select id="getTweetList" resultMap="manuscriptVOMap">
+        select m.id,u.username,m.topic,m.content,m.t_status,m.insert_time,m.update_time
+        from manuscript m,user u
+        where m.user_id = u.id
+        and m.m_status = '审核通过'
+        <if test="tweetSearch.author != null and tweetSearch.author != ''">
+            and u.username = #{tweetSearch.author}
+        </if>
+        <if test="tweetSearch.title != null and tweetSearch.title != ''">
+            and m.topic like CONCAT(CONCAT('%',#{tweetSearch.title}),
+            '%')
+        </if>
+        <if test="tweetSearch.tweetStatus != null and tweetSearch.tweetStatus != ''">
+            and m.t_status = #{tweetSearch.tweetStatus}
+        </if>
+        <if test="tweetSearch.insertTimeStart!=null and tweetSearch.insertTimeStart!=''">
+            AND m.insert_time &gt;= #{tweetSearch.insertTimeStart}
+        </if>
+        <if test="tweetSearch.insertTimeEnd!=null and tweetSearch.insertTimeEnd!=''">
+            AND m.insert_time &lt;= #{tweetSearch.insertTimeEnd}
+        </if>
+        ORDER BY m.insert_time DESC
+    </select>
+
+    <select id="getManuscriptById" resultMap="manuscriptVOMap">
+        select topic,content
+        from manuscript
+        where id = #{id}
+    </select>
 
     <delete id="deleteManuscript" parameterType="java.lang.Integer">
         delete from manuscript
@@ -146,6 +170,13 @@
             content = #{content},
             m_status = #{mStatus},
             update_time = NOW()
+        where id = #{id}
+    </update>
+
+    <update id="addCategoryId">
+        update manuscript
+        set
+            t_category_id = #{categoryId}
         where id = #{id}
     </update>
 

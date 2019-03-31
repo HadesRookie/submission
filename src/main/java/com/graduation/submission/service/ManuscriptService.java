@@ -2,6 +2,7 @@ package com.graduation.submission.service;
 
 import com.graduation.submission.common.ResponseResult;
 import com.graduation.submission.pojo.dto.ReviewSearchDTO;
+import com.graduation.submission.pojo.dto.TweetSearchDTO;
 import com.graduation.submission.pojo.vo.ManuscriptVO;
 import com.graduation.submission.utils.PageDataResult;
 
@@ -39,6 +40,8 @@ public interface ManuscriptService {
      * @return
      */
     PageDataResult getReviewList(int page, int limit, ReviewSearchDTO reviewSearchDTO);
+
+    PageDataResult getTweetList(int page, int limit, TweetSearchDTO tweetSearchDTO);
 
     /**
      * 删除稿件

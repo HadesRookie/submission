@@ -1,5 +1,6 @@
 package com.graduation.submission.service;
 
+import com.graduation.submission.common.TreeResult;
 import com.graduation.submission.pojo.TweetCategory;
 
 import java.util.List;
@@ -27,4 +28,7 @@ public interface TweetCategoryService {
 
     //删除类别
     String deleteCategory(Integer id);
+
+    //返回下拉树所需数据
+    TreeResult getCategoryTree();
 }
