@@ -59,5 +59,10 @@
         where id = #{id}
     </delete>
 
+    <select id="findChildCategory" resultMap="categoryMap">
+        select id,category,description,parent_id
+        from tweet_category
+        where parent_id = #{id}
+    </select>
 
 </mapper>

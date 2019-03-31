@@ -29,4 +29,7 @@ public interface TweetCategoryMapper {
 
     //删除类别
     int deleteCategory(Integer id);
+
+    //查找子节点
+    List<TweetCategory> findChildCategory(Integer id);
 }
