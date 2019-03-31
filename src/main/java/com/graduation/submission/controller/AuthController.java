@@ -296,13 +296,11 @@ public class AuthController {
     public List<Permission> getUserPerms() {
         List<Permission> permissions = new ArrayList<>();
         User existUser= (User) SecurityUtils.getSubject().getPrincipal();
-        log.info(existUser.getId().toString());
         if(null==existUser){
             return permissions;
         }
         try {
             permissions = permissionService.findUserPermissions(existUser.getId());
-            log.info(permissions.toString());
             //生成页面需要的json格式
             return permissions;
         } catch (Exception e) {

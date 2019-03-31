@@ -75,6 +75,9 @@
     <!--底部-->
     <div th:replace="fragments/footer :: footer"></div>
     <script src="/js/tweet/tweetCategory.js"></script>
+    <script th:inline="javascript">
+        var categoryList=/*[[${categoryList}]]*/;
+    </script>
 </div>
 </body>
 </html>

@@ -170,7 +170,6 @@ public class UserController {
         ResponseResult responseResult = new ResponseResult();
         try {
             Integer roleId = 5;
-            logger.info(roleId.toString());
             responseResult = userService.register(user,roleId);
         }catch (Exception e){
             e.printStackTrace();

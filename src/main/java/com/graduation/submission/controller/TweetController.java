@@ -2,6 +2,7 @@ package com.graduation.submission.controller;
 
 import com.graduation.submission.pojo.TweetCategory;
 import com.graduation.submission.service.TweetCategoryService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import java.util.List;
  **/
 @Controller
 @RequestMapping("/tweet")
+@Slf4j
 public class TweetController {
 
     @Autowired
@@ -37,6 +39,7 @@ public class TweetController {
         try {
             List<TweetCategory> categoryList = tweetCategoryService.categoryList();
             mav.addObject("categoryList",categoryList);
+
             mav.addObject("msg","ok");
         }catch (Exception e){
             e.printStackTrace();

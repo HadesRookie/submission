@@ -10,7 +10,7 @@
 
 
     <insert id="categoryAdd" useGeneratedKeys="true" keyProperty="id" parameterType="com.graduation.submission.pojo.TweetCategory" >
-        insert into manuscript
+        insert into tweet_category
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="category != null" >
                 category,
