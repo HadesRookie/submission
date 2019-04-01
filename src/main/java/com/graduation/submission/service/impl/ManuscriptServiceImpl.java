@@ -151,4 +151,18 @@ public class ManuscriptServiceImpl implements ManuscriptService {
 
         return responseResult;
     }
+
+    @Override
+    public ResponseResult addCategoryId(Integer id, Integer categoryId) {
+        ResponseResult responseResult = new ResponseResult();
+        int result = this.manuscriptMapper.addCategoryId(categoryId,id);
+        if (result == 1){
+            responseResult.setCode(IStatusMessage.SystemStatus.SUCCESS
+                    .getCode());
+        }else {
+            responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
+            responseResult.setMessage(IStatusMessage.SystemStatus.ERROR.getMessage());
+        }
+        return responseResult;
+    }
 }

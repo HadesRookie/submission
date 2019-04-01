@@ -80,4 +80,6 @@ public interface ManuscriptService {
      * @return
      */
     ResponseResult returnEdit(String content,Integer id);
+
+    ResponseResult addCategoryId(Integer id,Integer categoryId);
 }

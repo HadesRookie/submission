@@ -1,10 +1,12 @@
 package com.graduation.submission.controller;
 
+import com.graduation.submission.common.ResponseResult;
 import com.graduation.submission.common.TreeResult;
 import com.graduation.submission.pojo.TweetCategory;
 import com.graduation.submission.pojo.dto.TweetSearchDTO;
 import com.graduation.submission.service.ManuscriptService;
 import com.graduation.submission.service.TweetCategoryService;
+import com.graduation.submission.utils.IStatusMessage;
 import com.graduation.submission.utils.PageDataResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,6 +149,19 @@ public class TweetController {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @RequestMapping(value = "/addCategoryId",method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseResult addCategoryId(Integer id,Integer categoryId){
+        ResponseResult responseResult = new ResponseResult();
+        try {
+            responseResult = this.manuscriptService.addCategoryId(id,categoryId);
+        }catch (Exception e){
+            e.printStackTrace();
+            responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
+        }
+        return responseResult;
     }
 
 }
