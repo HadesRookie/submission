@@ -122,7 +122,7 @@ function openEdit(title){
 function getManuscript(obj,id) {
     //如果已经审核通过，提醒不可编辑和删除
     if(obj.mstatus === '审核通过'){
-        layer.alert("该文字已审核通过，不可进行编辑。");
+        layer.alert("该文章已审核通过，不可进行编辑。");
     }else{
         //回显数据
         $.get("/submit/getNewsDetail",{"id":id},function(data){

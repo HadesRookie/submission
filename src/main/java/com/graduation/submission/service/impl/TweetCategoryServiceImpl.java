@@ -29,6 +29,11 @@ public class TweetCategoryServiceImpl implements TweetCategoryService {
     }
 
     @Override
+    public List<TweetCategory> findCategory() {
+        return this.tweetCategoryMapper.categoryList();
+    }
+
+    @Override
     public int insertCategory(TweetCategory tweetCategory) {
         return this.tweetCategoryMapper.insertCategory(tweetCategory);
     }

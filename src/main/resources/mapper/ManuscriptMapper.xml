@@ -134,6 +134,14 @@
         ORDER BY m.insert_time DESC
     </select>
 
+    <select id="getTweetListByNodeId" resultMap="manuscriptVOMap">
+    select m.id,u.username,m.topic,m.content,m.t_status,m.insert_time,m.update_time
+    from manuscript m,user u
+    where m.user_id = u.id
+    and m.m_status = '审核通过'
+    and m.t_category_id = #{nodeId}
+    </select>
+
     <select id="getManuscriptById" resultMap="manuscriptVOMap">
         select topic,content
         from manuscript
@@ -176,7 +184,17 @@
     <update id="addCategoryId">
         update manuscript
         set
-            t_category_id = #{categoryId}
+            t_category_id = #{categoryId},
+            update_time = NOW()
+        where id = #{id}
+    </update>
+
+    <update id="push">
+        update manuscript
+        set
+            t_status = '已推送',
+            fee_status = '待结算',
+            update_time = NOW()
         where id = #{id}
     </update>
 

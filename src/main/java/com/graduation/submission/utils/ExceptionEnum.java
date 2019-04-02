@@ -1,11 +1,10 @@
 package com.graduation.submission.utils;
 /**
- * 
- * @项目名称：wyait-manage
+ *
+ * @项目名称：submission
  * @类名称：ExceptionEnum
  * @类描述：自定义异常枚举类
- * @创建人：wyait
- * @创建时间：2018年5月30日 下午2:33:08 
+ * @创建人：LJL
  * @version：
  */
 public enum ExceptionEnum {

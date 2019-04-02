@@ -207,9 +207,7 @@ public class ShiroConfig {
     }
 
     /**
-     * @描述：ShiroDialect，为了在thymeleaf里使用shiro的标签的bean
-     * @创建人：wyait
-     * @创建时间：2017年12月21日 下午1:52:59
+     * ShiroDialect，为了在thymeleaf里使用shiro的标签的bean
      * @return
      */
     @Bean
@@ -232,10 +230,7 @@ public class ShiroConfig {
     }
 
     /**
-     *
-     * @描述：sessionManager添加session缓存操作DAO
-     * @创建人：wyait
-     * @创建时间：2018年4月24日 下午8:13:52
+     * sessionManager添加session缓存操作DAO
      * @return
      */
     @Bean
@@ -250,10 +245,7 @@ public class ShiroConfig {
     }
 
     /**
-     *
-     * @描述：自定义cookie中session名称等配置
-     * @创建人：wyait
-     * @创建时间：2018年5月8日 下午1:26:23
+     * 自定义cookie中session名称等配置
      * @return
      */
     @Bean
@@ -270,10 +262,7 @@ public class ShiroConfig {
     }
 
     /**
-     *
-     * @描述：kickoutSessionFilter同一个用户多设备登录限制
-     * @创建人：wyait
-     * @创建时间：2018年4月24日 下午8:14:28
+     * kickoutSessionFilter同一个用户多设备登录限制
      * @return
      */
     public KickoutSessionFilter kickoutSessionFilter(){
@@ -294,13 +283,10 @@ public class ShiroConfig {
     }
 
     /**
-     *
      * @描述：开启Shiro的注解(如@RequiresRoles,@RequiresPermissions),需借助SpringAOP扫描使用Shiro注解的类,并在必要时进行安全逻辑验证
      * 配置以下两个bean(DefaultAdvisorAutoProxyCreator和AuthorizationAttributeSourceAdvisor)即可实现此功能
      * </br>Enable Shiro Annotations for Spring-configured beans. Only run after the lifecycleBeanProcessor(保证实现了Shiro内部lifecycle函数的bean执行) has run
      * </br>不使用注解的话，可以注释掉这两个配置
-     * @创建人：wyait
-     * @创建时间：2018年5月21日 下午6:07:56
      * @return
      */
     @Bean

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,6 +43,11 @@ public class TweetController {
         return "/tweet/tweetAdd";
     }
 
+    @RequestMapping("/tweetList")
+    public String toTweetList(){
+        return "/tweet/tweetList";
+    }
+
 
     /**
      * 获取分类列表
@@ -61,6 +67,18 @@ public class TweetController {
         }
         return mav;
     }
+
+    @RequestMapping(value = "/findCategory",method = RequestMethod.GET)
+    @ResponseBody
+    public List<TweetCategory> findCategory(){
+        List<TweetCategory> tweetCategories = new ArrayList<>();
+        try {
+            tweetCategories = tweetCategoryService.findCategory();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return  tweetCategories;
+     }
 
     /**
      * 添加与更新分类
@@ -120,6 +138,13 @@ public class TweetController {
         return "删除类别出错，请您稍后再试";
     }
 
+    /**
+     * 获取推文列表
+     * @param page
+     * @param limit
+     * @param tweetSearchDTO
+     * @return
+     */
     @RequestMapping(value = "/getTweetList",method = RequestMethod.POST)
     @ResponseBody
     public PageDataResult getTweetList(@RequestParam("page") Integer page,
@@ -139,6 +164,36 @@ public class TweetController {
         return pdr;
     }
 
+    @RequestMapping(value = "/getTweetListByNodeId",method = RequestMethod.POST)
+    @ResponseBody
+    public PageDataResult getTweetList(@RequestParam("page") Integer page,
+                                       @RequestParam("limit") Integer limit, Integer nodeId){
+        PageDataResult pdr = new PageDataResult();
+
+        try {
+            if (null == page) {
+                page = 1;
+            }
+            if (null == limit) {
+                limit = 10;
+            }
+            if (nodeId == null){
+                pdr = null;
+            }else {
+                pdr = manuscriptService.getTweetListByNodeId(page,limit,nodeId);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return pdr;
+    }
+
+
+    /**
+     * 获取分类下拉树数据
+     * @return
+     */
     @RequestMapping("/getTweetCategoryTree")
     @ResponseBody
     public TreeResult getTweetCategoryTree(){
@@ -151,12 +206,31 @@ public class TweetController {
         return null;
     }
 
+    /**
+     * 为推文添加类别id
+     * @param id
+     * @param categoryId
+     * @return
+     */
     @RequestMapping(value = "/addCategoryId",method = RequestMethod.POST)
     @ResponseBody
     public ResponseResult addCategoryId(Integer id,Integer categoryId){
         ResponseResult responseResult = new ResponseResult();
         try {
             responseResult = this.manuscriptService.addCategoryId(id,categoryId);
+        }catch (Exception e){
+            e.printStackTrace();
+            responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
+        }
+        return responseResult;
+    }
+
+    @RequestMapping(value = "/push",method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseResult push(Integer id){
+        ResponseResult responseResult = new ResponseResult();
+        try {
+            responseResult = this.manuscriptService.push(id);
         }catch (Exception e){
             e.printStackTrace();
             responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode());

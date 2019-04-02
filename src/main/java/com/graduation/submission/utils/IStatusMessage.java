@@ -1,10 +1,9 @@
 package com.graduation.submission.utils;
 
 /**
- * @项目名称： wyait-manage
+ * @项目名称： submission
  * @类名称： IStatusMessage
  * @类描述：响应状态信息
- * @创建时间： 2018年1月4日11:04:17
  * @version:
  */
 public interface IStatusMessage {

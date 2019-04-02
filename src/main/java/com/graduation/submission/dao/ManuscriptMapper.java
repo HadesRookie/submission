@@ -33,6 +33,9 @@ public interface ManuscriptMapper {
     //获取审核通过的所有推文信息
     List<ManuscriptVO> getTweetList(@Param("tweetSearch")TweetSearchDTO tweetSearch);
 
+    //根据所选菜单节点获取推文信息
+    List<ManuscriptVO> getTweetListByNodeId(Integer nodeId);
+
     //根据稿件id获取标题和内容
     ManuscriptVO getManuscriptById(Integer id);
 
@@ -50,4 +53,7 @@ public interface ManuscriptMapper {
 
     //添加类别id
     int addCategoryId(@Param("categoryId")Integer categoryId,@Param("id")Integer id);
+
+    //推送
+    int push(Integer id);
 }

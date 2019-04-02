@@ -17,6 +17,8 @@ public interface TweetCategoryService {
     //获取所有分类
     List<TweetCategory> categoryList();
 
+    List<TweetCategory> findCategory();
+
     //插入分类
     int  insertCategory(TweetCategory tweetCategory);
 

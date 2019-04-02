@@ -5,6 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
+ * 实现树形下拉框需要返回的数据格式
  * @ClassName TreeResult
  * @Description TODO
  * @Author LJL

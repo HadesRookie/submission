@@ -97,6 +97,20 @@ public class ManuscriptServiceImpl implements ManuscriptService {
     }
 
     @Override
+    public PageDataResult getTweetListByNodeId(int page, int limit, Integer nodeId) {
+        PageDataResult pdr = new PageDataResult();
+        PageHelper.startPage(page, limit);
+        List<ManuscriptVO> manuscriptVOS = manuscriptMapper.getTweetListByNodeId(nodeId);
+        //获取分页查询后的数据
+        PageInfo<ManuscriptVO> pageInfo = new PageInfo<>(manuscriptVOS);
+        //设置获取到的总记录数total；
+        pdr.setTotals(Long.valueOf(pageInfo.getTotal()).intValue());
+        pdr.setList(manuscriptVOS);
+        return pdr;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public String deleteManuscript(int id) {
         return this.manuscriptMapper.deleteManuscript(id) == 1 ? "ok" : "删除失败，请您稍后再试";
     }
@@ -107,6 +121,7 @@ public class ManuscriptServiceImpl implements ManuscriptService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public ResponseResult updateManuscript(String topic, String content, Integer id) {
         ResponseResult responseResult = new ResponseResult();
 
@@ -123,6 +138,7 @@ public class ManuscriptServiceImpl implements ManuscriptService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public ResponseResult reviewPass(Integer id) {
         ResponseResult responseResult = new ResponseResult();
         int pass = this.manuscriptMapper.reviewPass("审核通过",id);
@@ -138,6 +154,7 @@ public class ManuscriptServiceImpl implements ManuscriptService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public ResponseResult returnEdit(String content, Integer id) {
         ResponseResult responseResult = new ResponseResult();
         int returnEdit = this.manuscriptMapper.returnEdit(content,"退回修改",id);
@@ -153,9 +170,25 @@ public class ManuscriptServiceImpl implements ManuscriptService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public ResponseResult addCategoryId(Integer id, Integer categoryId) {
         ResponseResult responseResult = new ResponseResult();
         int result = this.manuscriptMapper.addCategoryId(categoryId,id);
+        if (result == 1){
+            responseResult.setCode(IStatusMessage.SystemStatus.SUCCESS
+                    .getCode());
+        }else {
+            responseResult.setCode(IStatusMessage.SystemStatus.ERROR.getCode());
+            responseResult.setMessage(IStatusMessage.SystemStatus.ERROR.getMessage());
+        }
+        return responseResult;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public ResponseResult push(Integer id) {
+        ResponseResult responseResult = new ResponseResult();
+        int result = this.manuscriptMapper.push(id);
         if (result == 1){
             responseResult.setCode(IStatusMessage.SystemStatus.SUCCESS
                     .getCode());

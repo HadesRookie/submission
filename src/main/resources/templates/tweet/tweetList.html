@@ -20,10 +20,12 @@
                     </fieldset>
                 </div>
                 <div class="layui-col-md9">
+                    <fieldset class="layui-elem-field">
                     <legend>推文列表</legend>
                     <div class="layui-field-box">
                         <table id="tweetList" lay-filter="tweetTable"></table>
                     </div>
+                    </fieldset>
                 </div>
             </div>
         </div>
@@ -39,11 +41,12 @@
 
         <script type="text/html" id="optBar">
             <a class="layui-btn layui-btn-xs" lay-event="push">推送</a>
+            <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="look">预览</a>
         </script>
 
     </div>
-
-    <!-- 预览 -->
+    <input id="nodeId" type="hidden" name="nodeId"/>
+    <!-- 推送 -->
     <div id="pushTweet" class="layer_self_wrap" style="width:800px;display:none;padding: 20px">
         <form id="pushForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
             <input id="id" type="hidden" name="id"/>
@@ -55,7 +58,7 @@
             <div class="layui-form-item">
                 <label >文章内容:</label>
                 <div style="margin-bottom: 20px;">
-                    <textarea class="layui-textarea" name="content" required readonly  id="content" ></textarea>
+                    <textarea class="layui-textarea" name="content" required th:readonly="readonly"  id="content" ></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -66,11 +69,25 @@
         </form>
     </div>
 
+    <div id="lookTweet" class="layer_self_wrap" style="width:800px;display:none;padding: 20px">
+        <form id="lookForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label >文章标题:</label>
+                <input type="text" class="layui-input" name="topic" id="ltopic" required readonly  />
+            </div>
+
+            <div class="layui-form-item">
+                <label >文章内容:</label>
+                <div style="margin-bottom: 20px;">
+                    <textarea class="layui-textarea" name="content" required readonly  id="lcontent" ></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
     <!--底部-->
     <div th:replace="fragments/footer :: footer"></div>
     <script src="/js/dateUtils.js"></script>
     <script src="/js/tweet/tweetList.js"></script>
-
 </div>
 </body>
 </html>

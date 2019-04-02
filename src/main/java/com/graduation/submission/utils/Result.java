@@ -2,7 +2,7 @@ package com.graduation.submission.utils;
 
 /**
  * 
- * @项目名称：wyait-manage
+ * @项目名称：submission
  * @类名称：Result
  * @类描述：http请求返回的对象
  * @创建人：LJL

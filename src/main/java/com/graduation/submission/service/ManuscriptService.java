@@ -41,7 +41,23 @@ public interface ManuscriptService {
      */
     PageDataResult getReviewList(int page, int limit, ReviewSearchDTO reviewSearchDTO);
 
+    /**
+     * 获取所有审核通过的推文
+     * @param page
+     * @param limit
+     * @param tweetSearchDTO
+     * @return
+     */
     PageDataResult getTweetList(int page, int limit, TweetSearchDTO tweetSearchDTO);
+
+    /**
+     * 根据树节点获取推文
+     * @param page
+     * @param limit
+     * @param nodeId
+     * @return
+     */
+    PageDataResult getTweetListByNodeId(int page, int limit,Integer nodeId);
 
     /**
      * 删除稿件
@@ -81,5 +97,18 @@ public interface ManuscriptService {
      */
     ResponseResult returnEdit(String content,Integer id);
 
+    /**
+     * 添加类别id
+     * @param id
+     * @param categoryId
+     * @return
+     */
     ResponseResult addCategoryId(Integer id,Integer categoryId);
+
+    /**
+     * 推送
+     * @param id
+     * @return
+     */
+    ResponseResult push(Integer id);
 }
