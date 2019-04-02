@@ -3,6 +3,7 @@ package com.graduation.submission.service;
 import com.graduation.submission.common.ResponseResult;
 import com.graduation.submission.pojo.User;
 import com.graduation.submission.pojo.dto.UserSearchDTO;
+import com.graduation.submission.pojo.vo.UserManuscriptVO;
 import com.graduation.submission.pojo.vo.UserRoleVO;
 import com.graduation.submission.utils.PageDataResult;
 
@@ -92,5 +93,7 @@ public interface UserService {
      * @return
      */
     int updatePwd(Integer id, String password);
+
+    UserManuscriptVO getUserByManuscriptId(Integer id);
 
 }

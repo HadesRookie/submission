@@ -134,6 +134,26 @@
         ORDER BY m.insert_time DESC
     </select>
 
+    <select id="getFinanceList" resultMap="manuscriptVOMap">
+        select m.id,u.username,m.topic,m.content,m.fee_status,m.insert_time,m.update_time
+        from manuscript m,user u
+        where m.user_id = u.id
+        and m.t_status = '已推送'
+        <if test="financeSearch.author != null and financeSearch.author != ''">
+            and u.username = #{financeSearch.author}
+        </if>
+        <if test="financeSearch.feeStatus != null and financeSearch.feeStatus != ''">
+            and m.fee_status = #{financeSearch.feeStatus}
+        </if>
+        <if test="financeSearch.insertTimeStart!=null and financeSearch.insertTimeStart!=''">
+            AND m.insert_time &gt;= #{financeSearch.insertTimeStart}
+        </if>
+        <if test="financeSearch.insertTimeEnd!=null and financeSearch.insertTimeEnd!=''">
+            AND m.insert_time &lt;= #{financeSearch.insertTimeEnd}
+        </if>
+        ORDER BY m.insert_time DESC
+    </select>
+
     <select id="getTweetListByNodeId" resultMap="manuscriptVOMap">
     select m.id,u.username,m.topic,m.content,m.t_status,m.insert_time,m.update_time
     from manuscript m,user u
@@ -194,6 +214,14 @@
         set
             t_status = '已推送',
             fee_status = '待结算',
+            update_time = NOW()
+        where id = #{id}
+    </update>
+
+    <update id="settle">
+        update manuscript
+        set
+            fee_status = '已结算',
             update_time = NOW()
         where id = #{id}
     </update>

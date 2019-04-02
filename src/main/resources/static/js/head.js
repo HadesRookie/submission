@@ -92,3 +92,42 @@ function updateUsePwd(){
         content:$('#useDetail')
     });
 }
+
+function userInfo() {
+    layer.open({
+        type:1,
+        title: "修改个人信息",
+        fixed:false,
+        resize :false,
+        shadeClose: true,
+        area: ['550px'],
+        content:$('#updateUser')
+    });
+}
+
+function updateUserInfo(){
+    var currentUser=$("#currentUser").html();
+
+   //回显数据
+    $.get("/user/getUserById",{"id":id},function(data){
+        if(data.msg=="ok" && data.user!=null){
+
+            $("#id").val(data.user.id==null?'':data.user.id);
+            $("#username").val(data.user.username==null?'':data.user.username);
+            $("#mobile").val(data.user.mobile==null?'':data.user.mobile);
+            $("#email").val(data.user.email==null?'':data.user.email);
+            $("#payNum").val(data.user.payNum == null?'':data.user.payNum);
+            $("#realName").val(data.user.realName == null?'':data.user.realName);
+
+            userInfo();
+        }else{
+            //弹出错误提示
+            layer.alert(data.msg,function () {
+                layer.closeAll();
+            });
+        }
+
+    });
+
+
+}

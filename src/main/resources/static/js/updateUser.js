@@ -28,6 +28,11 @@ $(function(){
             setPwd();
             return false;
         });
+
+        form.on("submit(updUserInfo)",function () {
+            updUser();
+            return false;
+        });
     })
 })
 function checkData(){

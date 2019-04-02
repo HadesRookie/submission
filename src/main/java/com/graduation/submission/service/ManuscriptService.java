@@ -1,6 +1,7 @@
 package com.graduation.submission.service;
 
 import com.graduation.submission.common.ResponseResult;
+import com.graduation.submission.pojo.dto.FinanceSearchDTO;
 import com.graduation.submission.pojo.dto.ReviewSearchDTO;
 import com.graduation.submission.pojo.dto.TweetSearchDTO;
 import com.graduation.submission.pojo.vo.ManuscriptVO;
@@ -49,6 +50,15 @@ public interface ManuscriptService {
      * @return
      */
     PageDataResult getTweetList(int page, int limit, TweetSearchDTO tweetSearchDTO);
+
+    /**
+     * 获取所以已推送的稿件
+     * @param page
+     * @param limit
+     * @param financeSearchDTO
+     * @return
+     */
+    PageDataResult getFinanceList(int page, int limit, FinanceSearchDTO financeSearchDTO);
 
     /**
      * 根据树节点获取推文
@@ -111,4 +121,11 @@ public interface ManuscriptService {
      * @return
      */
     ResponseResult push(Integer id);
+
+    /**
+     * 结算
+     * @param id
+     * @return
+     */
+    ResponseResult settle(Integer id);
 }

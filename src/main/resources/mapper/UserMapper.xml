@@ -304,6 +304,21 @@
         where id = #{id,jdbcType=INTEGER} and is_del=0 AND is_job=0 </update> -->
     <!--=Start setUserLockNum 锁定用户 -->
 
+    <resultMap id="userManuscriptMap" type="com.graduation.submission.pojo.vo.UserManuscriptVO">
+        <result column="username" property="username" javaType="java.lang.String" />
+        <result column="email" property="email" javaType="java.lang.String" />
+        <result column="pay_num" property="payNum" javaType="java.lang.String" />
+        <result column="real_name" property="realName" javaType="java.lang.String" />
+        <result column="mobile" property="mobile" javaType="java.lang.String" />
+    </resultMap>
+
+    <select id="getUserByManuscriptId" resultMap="userManuscriptMap">
+        select u.username,u.email,u.pay_num,u.real_name,u.mobile
+        from user u,manuscript m
+        where u.id = m.user_id
+        and m.id = #{id}
+    </select>
+
 
 
 </mapper>

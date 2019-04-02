@@ -1,6 +1,7 @@
 package com.graduation.submission.dao;
 
 import com.graduation.submission.pojo.Manuscript;
+import com.graduation.submission.pojo.dto.FinanceSearchDTO;
 import com.graduation.submission.pojo.dto.ReviewSearchDTO;
 import com.graduation.submission.pojo.dto.TweetSearchDTO;
 import com.graduation.submission.pojo.vo.ManuscriptVO;
@@ -33,6 +34,9 @@ public interface ManuscriptMapper {
     //获取审核通过的所有推文信息
     List<ManuscriptVO> getTweetList(@Param("tweetSearch")TweetSearchDTO tweetSearch);
 
+    //获取已推送的所有稿件信息
+    List<ManuscriptVO> getFinanceList(@Param("financeSearch")FinanceSearchDTO financeSearch);
+
     //根据所选菜单节点获取推文信息
     List<ManuscriptVO> getTweetListByNodeId(Integer nodeId);
 
@@ -56,4 +60,7 @@ public interface ManuscriptMapper {
 
     //推送
     int push(Integer id);
+
+    //结算
+    int settle(Integer id);
 }

@@ -4,6 +4,7 @@ import com.graduation.submission.common.ResponseResult;
 import com.graduation.submission.pojo.Role;
 import com.graduation.submission.pojo.User;
 import com.graduation.submission.pojo.dto.UserSearchDTO;
+import com.graduation.submission.pojo.vo.UserManuscriptVO;
 import com.graduation.submission.pojo.vo.UserRoleVO;
 import com.graduation.submission.pojo.vo.UserVO;
 import com.graduation.submission.service.PermissionService;
@@ -593,6 +594,22 @@ public class UserController {
         }
         logger.debug("修改密码，结果=responseResult:" + responseResult);
         return responseResult;
+    }
+
+    @RequestMapping(value = "/getUserByManuscriptId")
+    @ResponseBody
+    public Map<String,Object> getNewsDetail(@RequestParam("id")Integer id) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            UserManuscriptVO userManuscriptVO = userService.getUserByManuscriptId(id);
+            map.put("user",userManuscriptVO);
+            map.put("msg","ok");
+        }catch (Exception e){
+            e.printStackTrace();
+            map.put("msg", "查询稿主信息错误，请您稍后再试");
+        }
+        return map;
+
     }
 
 }

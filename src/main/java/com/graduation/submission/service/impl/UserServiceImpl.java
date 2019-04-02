@@ -11,6 +11,7 @@ import com.graduation.submission.pojo.User;
 import com.graduation.submission.pojo.UserRole;
 import com.graduation.submission.pojo.dto.UserRoleDTO;
 import com.graduation.submission.pojo.dto.UserSearchDTO;
+import com.graduation.submission.pojo.vo.UserManuscriptVO;
 import com.graduation.submission.pojo.vo.UserRoleVO;
 import com.graduation.submission.service.UserService;
 import com.graduation.submission.shiro.ShiroRealm;
@@ -270,5 +271,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updatePwd(Integer id, String password) {
         return this.userMapper.updatePwd(id, password);
+    }
+
+    @Override
+    public UserManuscriptVO getUserByManuscriptId(Integer id) {
+        return this.userMapper.getUserByManuscriptId(id);
     }
 }

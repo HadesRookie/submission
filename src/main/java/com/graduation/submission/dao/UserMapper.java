@@ -3,6 +3,7 @@ package com.graduation.submission.dao;
 import com.graduation.submission.pojo.User;
 import com.graduation.submission.pojo.dto.UserRoleDTO;
 import com.graduation.submission.pojo.dto.UserSearchDTO;
+import com.graduation.submission.pojo.vo.UserManuscriptVO;
 import com.graduation.submission.pojo.vo.UserRoleVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -93,5 +94,7 @@ public interface UserMapper {
      * @return
      */
     int updatePwd(@Param("id") Integer id, @Param("password") String password);
+
+    UserManuscriptVO getUserByManuscriptId(Integer id);
 
 }
