@@ -95,6 +95,19 @@ public interface UserMapper {
      */
     int updatePwd(@Param("id") Integer id, @Param("password") String password);
 
+    /**
+     * 根据稿件id获取用户信息
+     * @param id
+     * @return
+     */
     UserManuscriptVO getUserByManuscriptId(Integer id);
 
+    /**
+     * 更新用户个人信息
+     * @param user
+     * @return
+     */
+    int updateUserInfo(User user);
+
+    User getUserInfoById(Integer id);
 }

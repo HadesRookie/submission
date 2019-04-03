@@ -94,6 +94,33 @@ public interface UserService {
      */
     int updatePwd(Integer id, String password);
 
+
+    /**
+     * 根据稿件id获取用户信息
+     * @param id
+     * @return
+     */
     UserManuscriptVO getUserByManuscriptId(Integer id);
+
+    /**
+     * 根据id获取用户信息，完整信息
+     * @param id
+     * @return
+     */
+    User getUserById(Integer id);
+
+    /**
+     * 获取修改个人资料所需,只有部分数据，后续应新建个VO类来区分
+     * @param id
+     * @return
+     */
+    User getUserInfoById(Integer id);
+
+    /**
+     * 个人更新用户信息
+     * @param user
+     * @return
+     */
+    String updateUserInfo(User user);
 
 }

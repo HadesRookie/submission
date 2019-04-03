@@ -44,6 +44,6 @@ public class MyWebMvcConfig implements WebMvcConfigurer {
         // 路径根据后期项目的扩展，进行调整
         registry.addInterceptor(userActionInterceptor())
                 .addPathPatterns("/user/**", "/auth/**")
-                .excludePathPatterns("/user/sendMsg", "/user/login","/user/register","/user/forget");
+                .excludePathPatterns("/user/sendMsg", "/user/login","/user/register","/user/forget","/user/updateUserInfo");
     }
 }

@@ -60,10 +60,10 @@ public class UserActionInterceptor implements HandlerInterceptor {
         // 1. SecurityUtils获取session中的用户信息
         // HttpSession session=request.getSession();
         User user = (User) SecurityUtils.getSubject().getPrincipal();
-        if (user != null && StringUtils.isNotEmpty(user.getMobile())
+        if (user != null && StringUtils.isNotEmpty(user.getUsername())
                 && null != user.getVersion()) {
             // 2. 获取数据库中的用户数据
-            User dataUser = this.userService.findUserByMobile(user.getMobile());
+            User dataUser = this.userService.getUser(user.getUsername());
             // 3. 对比session中用户的version和数据库中的是否一致
             if (dataUser != null
                     && null != dataUser.getVersion()

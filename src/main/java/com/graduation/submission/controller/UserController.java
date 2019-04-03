@@ -324,6 +324,25 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "/updateUserInfo",method = RequestMethod.POST)
+    @ResponseBody
+    public String updateUserInfo(User user){
+        try {
+            if (null == user) {
+                return "请您填写用户信息";
+            }
+            String msg = this.userService.updateUserInfo(user);
+            if (msg.equals("ok")){
+                return msg;
+            }else {
+                return msg;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return "操作异常，请您稍后再试";
+        }
+    }
+
     /**
      * 查询用户数据
      * @return map
@@ -596,6 +615,11 @@ public class UserController {
         return responseResult;
     }
 
+    /**
+     * 根据稿件id查询用户信息
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/getUserByManuscriptId")
     @ResponseBody
     public Map<String,Object> getNewsDetail(@RequestParam("id")Integer id) {
@@ -610,6 +634,26 @@ public class UserController {
         }
         return map;
 
+    }
+
+    @RequestMapping(value = "/getUserById",method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> getUserById(){
+        Map<String,Object> map = new HashMap<>();
+        try {
+            User existUser = (User) SecurityUtils.getSubject().getPrincipal();
+            User user = userService.getUserInfoById(existUser.getId());
+            if (user != null){
+                map.put("user",user);
+                map.put("msg","ok");
+            }else {
+                map.put("msg", "查询用户信息有误，请您稍后再试");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            map.put("msg","查询用户出错，请您稍后再试");
+        }
+        return map;
     }
 
 }

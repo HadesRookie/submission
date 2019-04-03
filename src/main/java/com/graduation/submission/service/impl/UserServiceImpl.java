@@ -277,4 +277,20 @@ public class UserServiceImpl implements UserService {
     public UserManuscriptVO getUserByManuscriptId(Integer id) {
         return this.userMapper.getUserByManuscriptId(id);
     }
+
+    @Override
+    public User getUserById(Integer id) {
+        return this.userMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public User getUserInfoById(Integer id) {
+        return this.userMapper.getUserInfoById(id);
+    }
+
+    @Override
+    public String updateUserInfo(User user) {
+        return this.userMapper.updateUserInfo(user) == 1 ? "ok"
+                : "更新个人信息失败，请您稍后再试";
+    }
 }

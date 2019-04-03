@@ -319,6 +319,21 @@
         and m.id = #{id}
     </select>
 
+    <update id="updateUserInfo" parameterType="com.graduation.submission.pojo.User">
+        update user
+        set
+            email = #{email},
+            pay_num =  #{payNum},
+            real_name =  #{realName},
+            mobile = #{mobile},
+            update_time = NOW()
+            where
+                  id = #{id}
+    </update>
 
-
+    <select id="getUserInfoById" resultMap="userMap" >
+        select id, username, password, email, pay_num, real_name,mobile
+        from user
+        where id = #{id}
+    </select>
 </mapper>

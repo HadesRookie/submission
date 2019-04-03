@@ -70,38 +70,38 @@
     </div>
 
     <div id="updateUser" class="layer_self_wrap" style="width:500px;display:none;">
-        <form id="userForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
-            <input id="id" type="hidden" name="id"/>
+        <form id="userInfoForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <input id="fid" type="hidden" name="id"/>
             <div class="layui-form-item">
                 <label class="layui-form-label">用户名</label>
                 <div class="layui-input-inline">
-                    <input id="username" name="username" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                    <input id="fusername" name="username" lay-verify="required" readonly autocomplete="off" class="layui-input" type="text"/>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">手机号</label>
                 <div class="layui-input-inline">
-                    <input id="mobile" name="mobile" lay-verify="required" autocomplete="off" class="layui-input" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                    <input id="fmobile" name="mobile" lay-verify="required" autocomplete="off" class="layui-input" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"
                            onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">邮箱</label>
                 <div class="layui-input-inline">
-                    <input id="email" name="email" lay-verify="required | email" autocomplete="off" class="layui-input" type="text"/>
+                    <input id="femail" name="email" lay-verify="required | email" autocomplete="off" class="layui-input" type="text"/>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">支付宝号</label>
                 <div class="layui-input-inline">
-                    <input id="payNum" name="payNum" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
+                    <input id="fpayNum" name="payNum" lay-verify="required" autocomplete="off" class="layui-input" type="text"/>
                 </div>
             </div>
 
             <div class="layui-form-item">
                 <label class="layui-form-label">真实姓名</label>
                 <div class="layui-input-inline">
-                    <input id="realName" name="realName" lay-verify="required" autocomplete="off" class="layui-input" type="tel"/>
+                    <input id="frealName" name="realName" lay-verify="required" autocomplete="off" class="layui-input" type="tel"/>
                 </div>
             </div>
             <div class="layui-form-item">

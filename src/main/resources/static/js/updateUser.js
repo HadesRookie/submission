@@ -30,7 +30,7 @@ $(function(){
         });
 
         form.on("submit(updUserInfo)",function () {
-            updUser();
+            updUserInfo();
             return false;
         });
     })
@@ -176,6 +176,31 @@ function setPwd(){
             layer.alert(data.message,function () {
                 layer.closeAll();
                 //window.location.href="/index";
+            });
+        }
+    });
+}
+
+function updUserInfo() {
+    $.ajax({
+        type: "POST",
+        data: $("#userInfoForm").serialize(),
+        url: "/user/updateUserInfo",
+        success: function (data) {
+                if (data == "ok") {
+                    layer.alert("操作成功",function(){
+                        layer.closeAll();
+                    });
+                } else {
+                    layer.alert(data,function(){
+                        layer.closeAll();
+                    });
+                }
+
+        },
+        error: function () {
+            layer.alert("操作请求错误，请您稍后再试",function(){
+                layer.closeAll();
             });
         }
     });

@@ -106,19 +106,17 @@ function userInfo() {
 }
 
 function updateUserInfo(){
-    var currentUser=$("#currentUser").html();
 
    //回显数据
-    $.get("/user/getUserById",{"id":id},function(data){
+    $.get("/user/getUserById",function(data){
         if(data.msg=="ok" && data.user!=null){
 
-            $("#id").val(data.user.id==null?'':data.user.id);
-            $("#username").val(data.user.username==null?'':data.user.username);
-            $("#mobile").val(data.user.mobile==null?'':data.user.mobile);
-            $("#email").val(data.user.email==null?'':data.user.email);
-            $("#payNum").val(data.user.payNum == null?'':data.user.payNum);
-            $("#realName").val(data.user.realName == null?'':data.user.realName);
-
+            $("#fid").val(data.user.id==null?'':data.user.id);
+            $("#fusername").val(data.user.username==null?'':data.user.username);
+            $("#fmobile").val(data.user.mobile==null?'':data.user.mobile);
+            $("#femail").val(data.user.email==null?'':data.user.email);
+            $("#fpayNum").val(data.user.payNum == null?'':data.user.payNum);
+            $("#frealName").val(data.user.realName == null?'':data.user.realName);
             userInfo();
         }else{
             //弹出错误提示
