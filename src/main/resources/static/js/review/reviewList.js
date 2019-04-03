@@ -15,8 +15,10 @@ $(function() {
         })
         //创建一个编辑器
         editIndex = layedit.build('content');
+        var lookIndex = layedit.build('lcontent');
         //用于同步编辑器内容到textarea
         layedit.sync(editIndex);
+        layedit.sync(lookIndex);
     });
 
     layui.use('table', function(){
@@ -67,6 +69,8 @@ $(function() {
              if(obj.event === 'review'){
                 //编辑
                 getReview(data,data.id);
+             }else if(obj.event === 'look'){
+                 look(data,data.id);
              }
         });
         //监听审核通过
@@ -158,6 +162,19 @@ function openEdit(title){
     });
 }
 
+function openLook(title){
+
+    layer.open({
+        type:1,
+        title: title,
+        fixed:false,
+        resize :false,
+        shadeClose: true,
+        area:['900px'],
+        content:$('#lookSubmission')
+    });
+}
+
 function getReview(obj,id) {
     //如果已经审核通过，提醒不可编辑和删除
     if(obj.mstatus === '审核通过'){
@@ -181,6 +198,25 @@ function getReview(obj,id) {
 
         });
     }
+}
+
+function look(obj,id) {
+    $.get("/submit/getNewsDetail",{"id":id},function(data){
+        if(data.msg=="ok" && data.manuscript!=null){
+
+
+            $("#ltopic").val(data.manuscript.topic==null?'':data.manuscript.topic);
+            $("#lcontent").val(data.manuscript.content==null?'':data.manuscript.content)
+
+            openLook("预览文章");
+        }else{
+            //弹出错误提示
+            layer.alert(data.msg,function () {
+                layer.closeAll();
+            });
+        }
+
+    });
 }
 
 

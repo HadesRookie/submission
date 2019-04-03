@@ -55,6 +55,22 @@
         </form>
     </div>
 
+    <div id="lookSubmission" class="layer_self_wrap" style="width:800px;display:none;padding: 20px">
+        <form id="lookForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+            <div class="layui-form-item">
+                <label >文章标题:</label>
+                <input type="text" class="layui-input" name="topic" id="ltopic" required readonly  />
+            </div>
+
+            <div class="layui-form-item">
+                <label >文章内容:</label>
+                <div style="margin-bottom: 20px;">
+                    <textarea class="layui-textarea" name="content" required readonly  id="lcontent" ></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <!--底部-->
     <div th:replace="fragments/footer :: footer"></div>
     <script src="/js/submit/submissionList.js"></script>
