@@ -53,7 +53,7 @@ public interface ManuscriptMapper {
     int reviewPass(@Param("mStatus")String mStatus,@Param("id")Integer id);
 
     //退回修改
-    int returnEdit(@Param("content")String content,@Param("mStatus")String mStatus,@Param("id")Integer id);
+    int returnEdit(@Param("opinion")String opinion,@Param("mStatus")String mStatus,@Param("id")Integer id);
 
     //添加类别id
     int addCategoryId(@Param("categoryId")Integer categoryId,@Param("id")Integer id);

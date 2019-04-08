@@ -133,7 +133,7 @@ function reviewPass(obj) {
 function returnEdit(obj) {
     $.post("/review/returnEdit",{
         "id":$("#id").val(),
-        "content" : layedit.getContent(editIndex) //文章内容
+        "opinion" : $("#opinion").val() //审核意见
     },function(res){
         if(res.code=="1000"){
             layer.alert("退回修改！",function () {
@@ -186,7 +186,8 @@ function getReview(obj,id) {
 
                 $("#id").val(id);
                 $("#topic").val(data.manuscript.topic==null?'':data.manuscript.topic);
-                $("#content").val(data.manuscript.content==null?'':data.manuscript.content)
+                $("#content").val(data.manuscript.content==null?'':data.manuscript.content);
+                $("#opinion").val(data.manuscript.opinion==null?'':data.manuscript.opinion);
 
                 openEdit("审核文章");
             }else{

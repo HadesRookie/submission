@@ -169,9 +169,9 @@ public class ManuscriptServiceImpl implements ManuscriptService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public ResponseResult returnEdit(String content, Integer id) {
+    public ResponseResult returnEdit(String opinion, Integer id) {
         ResponseResult responseResult = new ResponseResult();
-        int returnEdit = this.manuscriptMapper.returnEdit(content,"退回修改",id);
+        int returnEdit = this.manuscriptMapper.returnEdit(opinion,"退回修改",id);
         if (returnEdit == 1){
             responseResult.setCode(IStatusMessage.SystemStatus.SUCCESS
                     .getCode());

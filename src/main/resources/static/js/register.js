@@ -1,9 +1,7 @@
 /**
  * 注册
  */
-var picCode;
 $(function(){
-    picCode=drawPic();
     layui.use(['form' ,'layer'], function() {
         var form = layui.form;
         var layer = layui.layer;
@@ -118,7 +116,6 @@ function register(){
             }else{
                 //$("#password").val("");
                 picCode=drawPic();
-                $("#code").val("");
                 $("#smsCode").val("");
                 layer.alert(data.message,function(){
                     layer.closeAll();//关闭所有弹框
@@ -135,7 +132,6 @@ function checkParams(){
     var username=$("#username").val();
     var password=$("#password").val();
     var mobile=$("#mobile").val();
-    var code=$("#code").val();
     if("ok"!=ValidateUtils.checkUserName(username) || "ok"!=ValidateUtils.checkSimplePassword(password)){
         layer.alert("请您输入正确的用户名和密码");
         return false;
@@ -148,20 +144,5 @@ function checkParams(){
         });
         return false;
     }
-    if("ok"!=ValidateUtils.checkPicCode(code)){
-        //tips层-右
-        layer.tips(ValidateUtils.checkPicCode(code), '#canvas', {
-            tips: [2, '#78BA32'], //还可配置颜色
-            tipsMore: true
-        });
-        return false;
-    }
-    if(picCode.toLowerCase()!=code.toLowerCase()){
-        //tips层-右
-        layer.tips("请您输入正确的验证码", '#canvas', {
-            tips: [2, '#78BA32'], //还可配置颜色
-            tipsMore: true
-        });
-        return false;
-    }
+
 }

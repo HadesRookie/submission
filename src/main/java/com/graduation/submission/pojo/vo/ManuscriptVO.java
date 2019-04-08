@@ -20,6 +20,8 @@ public class ManuscriptVO {
 
     private String content;
 
+    private String opinion;
+
     private String mStatus;
 
     private String tStatus;

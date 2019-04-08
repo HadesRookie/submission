@@ -63,10 +63,10 @@ public class ReviewController {
 
     @RequestMapping(value = "/returnEdit",method = RequestMethod.POST)
     @ResponseBody
-    public ResponseResult returnEdit(@RequestParam("content")String content,@RequestParam("id")Integer id){
+    public ResponseResult returnEdit(@RequestParam("opinion")String opinion,@RequestParam("id")Integer id){
         ResponseResult responseResult = new ResponseResult();
         try {
-            responseResult = manuscriptService.returnEdit(content,id);
+            responseResult = manuscriptService.returnEdit(opinion,id);
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -146,8 +146,8 @@ function getManuscript(obj,id) {
 
                     $("#id").val(id);
                     $("#topic").val(data.manuscript.topic==null?'':data.manuscript.topic);
-                    $("#content").val(data.manuscript.content==null?'':data.manuscript.content)
-
+                    $("#content").val(data.manuscript.content==null?'':data.manuscript.content);
+                    $("#opinionRead").val(data.manuscript.opinion==null?'':data.manuscript.opinion);
                     openEdit("编辑文章");
                 }else{
                     //弹出错误提示

@@ -70,7 +70,7 @@
 
     <!-- 审核投稿 -->
     <div id="reviewSubmission" class="layer_self_wrap" style="width:800px;display:none;padding: 20px">
-        <form id="submissionForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 20px;">
+        <form id="submissionForm" class="layui-form layui-form-pane" method="post" action="" style="margin-top: 10px;">
             <input id="id" type="hidden" name="id"/>
             <div class="layui-form-item">
                 <label >文章标题:</label>
@@ -80,8 +80,13 @@
             <div class="layui-form-item">
                 <label >文章内容:</label>
                 <div style="margin-bottom: 20px;">
-                    <textarea class="layui-textarea" name="content" required  id="content"></textarea>
+                    <textarea class="layui-textarea" name="content" required readonly  id="content"></textarea>
                 </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label >审核意见:</label>
+                <textarea type="text" class="layui-textarea" name="opinion" id="opinion"  placeholder="请输入内容" style="height: 180px"  ></textarea>
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block" style="margin-left: 10px;">

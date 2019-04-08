@@ -101,11 +101,11 @@ public interface ManuscriptService {
 
     /**
      * 退回修改
-     * @param content
+     * @param opinion
      * @param id
      * @return
      */
-    ResponseResult returnEdit(String content,Integer id);
+    ResponseResult returnEdit(String opinion,Integer id);
 
     /**
      * 添加类别id

@@ -75,6 +75,7 @@
         <result column="username" property="username" javaType="java.lang.String" />
         <result column="topic" property="topic" javaType="java.lang.String" />
         <result column="content" property="content" javaType="java.lang.String" />
+        <result column="opinion" property="opinion" javaType="java.lang.String" />
         <result column="m_status" property="mStatus" javaType="java.lang.String" />
         <result column="t_status" property="tStatus" javaType="java.lang.String" />
         <result column="fee_status" property="feeStatus" javaType="java.lang.String" />
@@ -163,7 +164,7 @@
     </select>
 
     <select id="getManuscriptById" resultMap="manuscriptVOMap">
-        select topic,content
+        select topic,content,opinion
         from manuscript
         where id = #{id}
     </select>
@@ -195,7 +196,7 @@
     <update id="returnEdit">
         update manuscript
         set
-            content = #{content},
+            opinion = #{opinion},
             m_status = #{mStatus},
             update_time = NOW()
         where id = #{id}
